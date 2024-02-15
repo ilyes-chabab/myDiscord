@@ -30,4 +30,9 @@ class Db:
         self.cursor.execute(query ,params or ())
         result = self.cursor.fetchall()
         self.disconnect()
+<<<<<<< HEAD
         return result
+=======
+        return result
+
+>>>>>>> channel
