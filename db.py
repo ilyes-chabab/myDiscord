@@ -30,5 +30,3 @@ class Db:
         self.cursor.execute(query ,params or ())
         result = self.cursor.fetchall()
         self.disconnect()
-        return result
-
