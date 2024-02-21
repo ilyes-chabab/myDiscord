@@ -1,13 +1,14 @@
 import mysql.connector
-from db import Db
+from Db import Db
 
 class Channel:
     def __init__(self):
-        self.db=Db('localhost','root','root','discord')
+        self.db=Db('ilyes-chabab.students-laplateforme.io','ilyes-chabab','Nitrate13140','ilyes-chabab_myDiscord')
+        # self.db=Db('localhost','root','root','discord')
         self.db.connect()
 
     def createChannel(self,nameChannel):
-        queries = (" insert into channel (nom) values (%s) ")
+        queries = (" insert into channel (name) values (%s) ")
         params = (nameChannel,)
         self.db.executeQuery(queries ,params)
         print(f"{nameChannel} crée")
@@ -27,7 +28,15 @@ class Channel:
         params= (id,)
         self.db.executeQuery(queries,params)
         print(f"le channel avec l'{id} a été supprimé")  
+    
+    def getNameChannel(self,id_channel):
+        queries = (f'select nom from channel where id = {id_channel}')
+        return self.db.fetch(queries)
+
 
 channel=Channel()
+channel.deleteChannel(2)
 print(channel.readchannel())
+print(channel.getNameChannel(1))
+
 
