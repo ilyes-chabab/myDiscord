@@ -1,5 +1,5 @@
 import mysql.connector
-from Db import Db
+from db import Db
 
 class Channel:
     def __init__(self):
