@@ -33,5 +33,4 @@ class Right(Channel):
 
     
 right=Right()
-right.createCreator(1,1)
 print(right.readRight())
