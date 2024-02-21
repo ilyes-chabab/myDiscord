@@ -1,4 +1,4 @@
-from Channel import Channel
+from channel import Channel
 
 class Right(Channel):
     def __init__(self):
