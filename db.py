@@ -1,6 +1,6 @@
 import mysql.connector
 
-class DB:
+class Db:
     def __init__(self ,host ,user ,password ,database):
         self.host = host
         self.user = user
@@ -32,23 +32,3 @@ class DB:
         result = self.cursor.fetchall()
         self.disconnect()
         return result
-    
-    def checkStock(self):
-        queries = ("""
-            SELECT quantity FROM product
-                   """)
-        self.connect()
-        self.cursor.execute(queries)
-        result = self.cursor.fetchall()
-        quantity = 0
-        for quantité in result:
-            if quantity == quantité[0]:
-                print("Produit en rupture de stock")
-            else: 
-                print("Produit en stock") 
-
-    def checkProduit(self):
-        queries = "select * from product"
-        self.connect()
-        select = self.cursor.execute(queries)
-        return select

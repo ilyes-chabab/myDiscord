@@ -4,23 +4,14 @@ class User():
     def __init__(self):
         pass
 
-    def createUser(self ,email ,surname ,firstname ,password):
+    def createUser(self ,email ,surname ,firstname,password):
         # Permet la création d'un utilisateur
         queries = ("""
-            INSERT INTO user(email ,surname, firstname)
+            INSERT INTO user(email ,surname, firstname ,password ,state)
             VALUES
-            (%s,%s,%s)
+            (%s,%s,%s,%s,offline)
             """)
         params = (email ,surname ,firstname)
-        database.executeQuery(queries ,params)
-    
-    def createPassword(self, password):
-        queries = ("""
-            INSERT INTO user(password)
-            VALUES
-            (%s)
-            """)
-        params = (password)
         database.executeQuery(queries ,params)
 
     def readUser(self):
@@ -65,21 +56,22 @@ class User():
         Online = True
     
     def Disconnection(self ,id):
-        # Permet de renvoyer True si l'utilisateur appuie sur le boutton True
+        # Modifie la colonne 'state' de l'utilisateur pour le rendre hors-ligne
         # if button_disconnection = True
             queries = ("""
             UPDATE user
-            SET state = False
+            SET state = offline
             WHERE id = %s
             """)
             params = (id)
-            database.executeQuery(queries, params) 
+            database.executeQuery(queries, params)
+    
 
 
 
 database = DB("ilyes-chabab.students-laplateforme.io" ,"ilyes-chabab" ,"Nitrate13140" ,"ilyes-chabab_myDiscord")
 user = User()
-# user.createUser("dingdong@boing.com","ab" ,"ayop" ,"ronda1")
+# user.createUser("oleoleg@dongz.com","cricri" ,"ovor")
 # user.deleteUser(3)
 # user.updateUser("boing" ,"ding" ,2)
 user.readUser()
