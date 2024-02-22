@@ -1,4 +1,4 @@
-from db import DB
+from Db import Db
 
 class User():
     def __init__(self):
