@@ -96,13 +96,22 @@ class User():
                 return True
             else:
                 print("l'user est déconnecté")
+    
+    def get_user_id(self,email_user):
+        query = ("""
+                 select id from user
+                 where email=%s
+                 """)
+        param=(email_user,)
+        return database.fetch(query,param)[0][0]
         
     
 
 
 database = Db("ilyes-chabab.students-laplateforme.io" ,"ilyes-chabab" ,"Nitrate13140" ,"ilyes-chabab_myDiscord")
 user = User()
-user.createUser("oleoleg@dongz.com","cricri" ,"ovor" ,"ippon123")
+# user.createUser("oleoleg@dongz.com","cricri" ,"ovor" ,"ippon123")
+print(user.get_user_id('oleoleg@dongz.com'))
 # user.deleteUser(3)
 # user.updateUser("boing" ,"ding" ,2)
 # user.checkForAccount('dingdong@boing.com')
