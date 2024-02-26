@@ -9,9 +9,9 @@ class User():
         queries = ("""
             INSERT INTO user(email ,surname, firstname ,password ,state)
             VALUES
-            (%s,%s,%s,%s,offline)
+            (%s,%s,%s,%s,'offline')
             """)
-        params = (email ,surname ,firstname)
+        params = (email ,surname ,firstname, password)
         database.executeQuery(queries ,params)
 
     def readUser(self):
@@ -49,14 +49,23 @@ class User():
             """)
         params = [id]
         database.executeQuery(queries,params)
-    
-    def checkForConnection(self):
-        # Permet de renvoyer True si l'utilisateur est connecté
-        pass
-        Online = True
+        
+
+    def Connection(self):
+        # Modifie la colonne 'state' de l'utilisateur pour le rendre hors-ligne
+        # Appel lorsqu'on appuie sur le boutton Connection
+        queries = ("""
+            UPDATE user
+            SET state = online
+            WHERE id = %s
+            """)
+        params = (id)
+        database.executeQuery(queries, params)
+        
     
     def Disconnection(self ,id):
         # Modifie la colonne 'state' de l'utilisateur pour le rendre hors-ligne
+        # Appel lorsqu'on appuie sur le boutton Connection
         # if button_disconnection = True
             queries = ("""
             UPDATE user
@@ -65,13 +74,38 @@ class User():
             """)
             params = (id)
             database.executeQuery(queries, params)
+
+    def checkForAccount(self ,email):
+        queries = ("""
+                    SELECT email FROM user
+                   """)
+        checkUser = database.fetch(queries)
+        for user in checkUser:
+            if email == user[0]:
+                print("Déja créer")
+                return True
+    
+    def checkForConnection(self):
+        # Permet de renvoyer True si l'utilisateur est connecté
+        queries = ("""
+                    SELECT state FROM user
+                   """)
+        checkUser = database.fetch(queries)
+        for user in checkUser:
+            if "online" == user[0]:
+                print("l'user est connecté")
+                return True
+            else:
+                print("l'user est déconnecté")
+        
     
 
 
-
-database = DB("ilyes-chabab.students-laplateforme.io" ,"ilyes-chabab" ,"Nitrate13140" ,"ilyes-chabab_myDiscord")
+database = Db("ilyes-chabab.students-laplateforme.io" ,"ilyes-chabab" ,"Nitrate13140" ,"ilyes-chabab_myDiscord")
 user = User()
-# user.createUser("oleoleg@dongz.com","cricri" ,"ovor")
+user.createUser("oleoleg@dongz.com","cricri" ,"ovor" ,"ippon123")
 # user.deleteUser(3)
 # user.updateUser("boing" ,"ding" ,2)
-user.readUser()
+# user.checkForAccount('dingdong@boing.com')
+# user.checkForConnection()
+# user.readUser()
