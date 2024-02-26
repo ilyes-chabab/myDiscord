@@ -50,7 +50,6 @@ class User():
         params = [id]
         database.executeQuery(queries,params)
         
-
     def Connection(self):
         # Modifie la colonne 'state' de l'utilisateur pour le rendre hors-ligne
         # Appel lorsqu'on appuie sur le boutton Connection
