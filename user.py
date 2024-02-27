@@ -97,14 +97,14 @@ class User():
             else:
                 print("l'user est déconnecté")
     
-    def get_user_id(self,email_user):
+    def get_user_id(self,email_user): 
         query = ("""
                  select id from user
                  where email=%s
                  """)
         param=(email_user,)
         return database.fetch(query,param)[0][0]
-        
+# methode qui sert a return l'id de l'user afin de l'inserer dans des channel et pour que ses message lui soit associés
     
 
 
