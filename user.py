@@ -12,12 +12,12 @@ class User():
             (%s,%s,%s,%s,'offline')
             """)
         params = (email ,surname ,firstname, password)
-        database.executeQuery(queries ,params)
+        db.executeQuery(queries ,params)
 
     def readUser(self):
         # Permet l'affichage du contenu de la table user dans le terminal
         queries = ("SELECT * FROM user")
-        showdata = database.fetch(queries)
+        showdata = db.fetch(queries)
         print (showdata)
     
     def updateUser(self ,email ,surname ,firstname ,id ,id_colonne):
@@ -28,7 +28,7 @@ class User():
             WHERE id = %s
             """)
         params = (email,surname,firstname,id,id_colonne)
-        database.executeQuery(queries, params)
+        db.executeQuery(queries, params)
     
     def updatePassword(self ,password):
         # Permet de modifier le mot de passe d'un utilisateur
@@ -38,7 +38,7 @@ class User():
             WHERE id = %s
             """)
         params = (password)
-        database.executeQuery(queries, params)
+        db.executeQuery(queries, params)
 
     
     def deleteUser(self ,id):
@@ -48,7 +48,7 @@ class User():
             WHERE id = (%s)
             """)
         params = [id]
-        database.executeQuery(queries,params)
+        db.executeQuery(queries,params)
         
     def Connection(self):
         # Modifie la colonne 'state' de l'utilisateur pour le rendre hors-ligne
@@ -59,7 +59,7 @@ class User():
             WHERE id = %s
             """)
         params = (id)
-        database.executeQuery(queries, params)
+        db.executeQuery(queries, params)
         
     
     def Disconnection(self ,id):
@@ -72,13 +72,13 @@ class User():
             WHERE id = %s
             """)
             params = (id)
-            database.executeQuery(queries, params)
+            db.executeQuery(queries, params)
 
     def checkForAccount(self ,email):
         queries = ("""
                     SELECT email FROM user
                    """)
-        checkUser = database.fetch(queries)
+        checkUser = db.fetch(queries)
         for user in checkUser:
             if email == user[0]:
                 print("Déja créer")
@@ -89,7 +89,7 @@ class User():
         queries = ("""
                     SELECT state FROM user
                    """)
-        checkUser = database.fetch(queries)
+        checkUser = db.fetch(queries)
         for user in checkUser:
             if "online" == user[0]:
                 print("l'user est connecté")
@@ -103,12 +103,12 @@ class User():
                  where email=%s
                  """)
         param=(email_user,)
-        return database.fetch(query,param)[0][0]
+        return db.fetch(query,param)[0][0]
 # methode qui sert a return l'id de l'user afin de l'inserer dans des channel et pour que ses message lui soit associés
     
 
 
-database = Db("ilyes-chabab.students-laplateforme.io" ,"ilyes-chabab" ,"Nitrate13140" ,"ilyes-chabab_myDiscord")
+db = Db("ilyes-chabab.students-laplateforme.io" ,"ilyes-chabab" ,"Nitrate13140" ,"ilyes-chabab_myDiscord")
 user = User()
 # user.createUser("oleoleg@dongz.com","cricri" ,"ovor" ,"ippon123")
 print(user.get_user_id('oleoleg@dongz.com'))
