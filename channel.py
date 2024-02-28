@@ -33,10 +33,12 @@ class Channel:
         queries = (f'select nom from channel where id = {id_channel}')
         return self.db.fetch(queries)
 
+    def countProduct(self):
+        querie=(f"SELECT COUNT(*) FROM channel")
+        return self.db.fetch(querie)[0][0]
+
 
 channel=Channel()
-channel.deleteChannel(2)
-print(channel.readchannel())
-print(channel.getNameChannel(1))
+print(channel.countProduct())
 
 
