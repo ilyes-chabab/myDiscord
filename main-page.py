@@ -12,6 +12,12 @@ class main_page:
         entry = Entry(self.root, width=90)
         entry.pack(pady=20, padx=100)
         entry.place(x=400, y=550)  # Positionner la barre d'entrée à x=100, y=50
+    
+    def up(self):
+        print("plus")
+
+    def down(self):
+        print("moins")
 
     def main(self):
        
@@ -26,9 +32,17 @@ class main_page:
         canvas.create_line(333, 0, 333, 600, width=2, fill='black')
 
         # Créer un bouton pour créer la barre d'entrée
-        button = Button(self.root, text='Cliquez-moi', command=self.create_input_bar, width=46, height=5)
+        button = Button(self.root, text="Channel.getNameChannel(1)", command=self.create_input_bar, width=46, height=5)
         button.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
-        button.place(x=0, y=0)
+        button.place(x=0, y=250)
+
+        button_up = Button(self.root, text="^", command=self.up, width=46, height=5)
+        button_up.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
+        button_up.place(x=0, y=0)
+
+        button_down = Button(self.root, text="v", command=self.down, width=46, height=5)
+        button_down.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
+        button_down.place(x=0, y=450)
         
         # Créer une barre d'entrée initiale, mais la masquer
         
