@@ -1,6 +1,7 @@
 from tkinter import *
 from channel import Channel
 from db import Db
+from Messaging import Messaging
 
 class main_page:
     
@@ -15,8 +16,9 @@ class main_page:
         self.number_channel=self.channel.numberChannelForUser(self.id_user)[self.id_channel][0]
         self.name_channel=self.channel.getNameChannel(self.number_channel)
 
-    def create_input_bar(self):
-        print(self.name_channel)
+    def createMessaging(self):
+
+        # messaging.root.mainloop()
         entry = Entry(self.root, width=90)
         entry.pack(pady=20, padx=100)
         entry.place(x=400, y=550)  # Positionner la barre d'entrée à x=100, y=50
@@ -54,7 +56,7 @@ class main_page:
         canvas.create_line(333, 0, 333, 600, width=2, fill='black')
 
         # Créer un bouton pour créer la barre d'entrée
-        self.button = Button(self.root, text=self.name_channel, command=self.create_input_bar, width=46, height=5)
+        self.button = Button(self.root, text=self.name_channel, command=self.createMessaging, width=46, height=5)
         self.button.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
         self.button.place(x=0, y=250)
 
@@ -66,12 +68,13 @@ class main_page:
         button_down.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
         button_down.place(x=0, y=450)
         
-        # Créer une barre d'entrée initiale, mais la masquer
+        
         
 
         # Lancement de la boucle principale de la fenêtre
         self.root.mainloop()
 
+messaging=Messaging()
 main = main_page()
 if __name__ == "__main__":
     main.main()
