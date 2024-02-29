@@ -1,5 +1,9 @@
 from tkinter import *
 from tkinter import messagebox
+from User import *
+
+
+# Permet de définir la fenêtre et ses caractéristiques
 
 root=Tk()
 root.title('Login')
@@ -7,11 +11,15 @@ root.geometry('925x550+300+200')
 root.configure(bg="#fff")
 root.resizable(False,False)
 
+# Fonction qui s'appelle lorsqu'on clique sur le bouton sign in et qui permet l'accès à la page principale
+
 def signin():
-    username=user.get()
-    password=code.get()
-       
-    if  username=='admin' and password=='1234':
+    # Variable qui récupère l'email et le mdp entré par l'user
+    username = user.get()
+    password = code.get()
+    
+    # Vérifie que l'email et le password sont bien présent dans la table user et ouvre une fenêtre
+    if User.checkForAccount(username) == True and password == User.checkForPassword(username):
          screen=Toplevel(root)
          screen.title("App")
          screen.geometry('925x500+300+200')
@@ -21,19 +29,22 @@ def signin():
 
          screen.mainloop()
 
-    elif username!='admin' and password!='1234':
-         messagebox.showerror('Invalid', 'Invalid username and password')
+    # Message d'erreur lorsque l'email et le mdp sont invalide
+    elif username != User.checkForAccount(username) and password != User.checkForPassword(username):
+         messagebox.showerror('Invalid', 'Invalid email and password')
     
-    elif password!="1234":
+    # Message d'erreur lorsque le mdp est invalide
+
+    elif password != User.checkForPassword(username):
         messagebox.showerror('Invalid', 'Invalid password')
 
-    elif username!='admin':
-        messagebox.showerror('Invalid', 'Invalid username')
+    # Message d'erreur lorsque l'email est invalide
+        
+    elif username != User.checkForAccount(username):
+        messagebox.showerror('Invalid', 'Invalid email')
 
 
-img = PhotoImage(file='C:\\Users\\b13im\\Downloads\\6jupfeilyhx71.png')
-
-Label(root,image=img,bg='white').place(x=50,y=50)
+Label(root,bg='white').place(x=50,y=50)
 
 frame=Frame(root,width=350,height=350,bg="white")
 frame.place(x=480,y=70)
@@ -46,13 +57,13 @@ def on_enter(e):
     user.delete(0, 'end')
 
 def on_leave(e):
-    name=user.get()
-    if name=='':
+    name = user.get()
+    if name =='':
         user.insert(0, 'Password')
         
 user = Entry(frame,width=25,fg='black',border=0,bg="white",font=('Microsoft YaHei UI Light', 11))
 user.place(x=30,y=80)
-user.insert(0,'Username')
+user.insert(0,'Email')
 user.bind('<FocusIn>',on_enter)
 user.bind('<FocusOut>',on_leave)
 
