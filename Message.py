@@ -8,7 +8,7 @@ class Message:
 
     def createMessage(self,message, id_user_emeteur,id_channel):
         query=('insert into message (message,id_user_emeteur,id_channel,heure) values (%s,%s,%s,%s)')
-        params=(message , id_user_emeteur,id_channel,time.strftime('%H:%M:%S', time.localtime()))
+        params=(message , id_user_emeteur,id_channel,time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()))
         self.db.executeQuery(query , params)
     
     def readMessage(self):
@@ -36,6 +36,6 @@ class Message:
         return self.db.fetch(query,params)
 
 message1=Message()
-message1.createMessage("test3",1,1)
+message1.createMessage("youhouuuuuu",1,1)
 print(message1.getHeure("test3",1,1))
 print(message1.readMessage())
