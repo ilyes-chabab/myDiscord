@@ -6,7 +6,7 @@ class Right(Channel):
     
     def createCreator(self,id_channel,id_user):
         queries=('insert into right_channel (id_channel , id_user , right_number ) values (%s,%s,%s)')
-        params = (id_channel,id_user,1)
+        params = (id_channel,id_user,1)#'''1 car il est admin '''
         self.db.executeQuery(queries,params)
         print("créateur ajouté en tant qu'admin")
 
@@ -21,7 +21,7 @@ class Right(Channel):
     
     def addUser(self,id_channel,id_user):
         queries=('insert into right_channel (id_channel,id_user,right_number) values (%s,%s,%s)')
-        params=(id_channel,id_user,1)
+        params=(id_channel,id_user,2 ) #2 car il est membre 
         self.db.executeQuery(queries,params)
     
     def deleteUser(self,id_channel,id_user):
@@ -34,3 +34,4 @@ class Right(Channel):
     
 right=Right()
 print(right.readRight())
+right.addUser(3,1)

@@ -18,7 +18,7 @@ class Channel:
         return self.db.fetch(queries)
     
     def updateChannel(self,id,new_name_channel):
-        queries=('UPDATE channel SET nom = %s WHERE id = %s')
+        queries=('UPDATE channel SET name = %s WHERE id = %s')
         params=(new_name_channel,id)
         self.db.executeQuery(queries,params)
         print(f"le channel avec l'id {id} a été modifié en {new_name_channel}")
@@ -30,13 +30,21 @@ class Channel:
         print(f"le channel avec l'{id} a été supprimé")  
     
     def getNameChannel(self,id_channel):
-        queries = (f'select nom from channel where id = {id_channel}')
+        queries = (f'select name from channel where id = {id_channel}')
         return self.db.fetch(queries)
-
+    
+    def countAllChannel(self,id_user):
+        query=("SELECT COUNT(*) FROM right_channel where id_user=%s")
+        params=(id_user,)
+        return self.db.fetch(query,params)[0][0]
+    
+    def numberChannelForUser(self,id_user):
+        queries=('select id_channel from right_channel where id_user=%s')
+        params=(id_user,)
+        return self.db.fetch(queries,params)
 
 channel=Channel()
-channel.deleteChannel(2)
-print(channel.readchannel())
-print(channel.getNameChannel(1))
+print(channel.numberChannelForUser(1)[1][0])
+
 
 
