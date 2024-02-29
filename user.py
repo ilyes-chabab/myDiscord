@@ -74,15 +74,23 @@ class User():
             params = (id)
             db.executeQuery(queries, params)
 
-    def checkForAccount(self ,email):
+    def checkForAccount(username):
         queries = ("""
                     SELECT email FROM user
                    """)
         checkUser = db.fetch(queries)
         for user in checkUser:
-            if email == user[0]:
-                print("Déja créer")
+            if username == user[0]:
                 return True
+    
+    def checkForPassword(username):
+        queries = ("""
+                SELECT password FROM user
+                WHERE email = %s
+                """)
+        params = [username]
+        checkPassword = db.fetch(queries, params)[0][0]
+        return checkPassword
     
     def checkForConnection(self):
         # Permet de renvoyer True si l'utilisateur est connecté
@@ -96,24 +104,27 @@ class User():
                 return True
             else:
                 print("l'user est déconnecté")
-    
+
+# methode qui sert a return l'id de l'user afin de l'inserer dans des channel et pour que ses message lui soit associés
+                   
     def get_user_id(self,email_user): 
         query = ("""
                  select id from user
-                 where email=%s
+                 where email = (%s)
                  """)
-        param=(email_user,)
+        param=(email_user)
         return db.fetch(query,param)[0][0]
-# methode qui sert a return l'id de l'user afin de l'inserer dans des channel et pour que ses message lui soit associés
+
     
 
 
 db = Db("ilyes-chabab.students-laplateforme.io" ,"ilyes-chabab" ,"Nitrate13140" ,"ilyes-chabab_myDiscord")
 user = User()
 # user.createUser("oleoleg@dongz.com","cricri" ,"ovor" ,"ippon123")
-print(user.get_user_id('oleoleg@dongz.com'))
+# print(user.get_user_id('oleoleg@dongz.com'))
 # user.deleteUser(3)
 # user.updateUser("boing" ,"ding" ,2)
-# user.checkForAccount('dingdong@boing.com')
+# print (user.checkForAccount('dingdong@boing.com'))
 # user.checkForConnection()
+# print (user.checkForPassword('dingdong@boing.com'))
 # user.readUser()
