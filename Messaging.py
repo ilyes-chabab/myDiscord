@@ -45,5 +45,4 @@ class Messaging:
 
 
 message=Messaging()
-message.root.mainloop()
 
