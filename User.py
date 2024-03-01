@@ -107,13 +107,13 @@ class User():
 
 # methode qui sert a return l'id de l'user afin de l'inserer dans des channel et pour que ses message lui soit associés
                    
-    def get_user_id(self,email): 
+    def get_user_id(email): 
         query = ("""
                  select id from user
                  where email = (%s)
                  """)
-        param=(email)
-        return db.fetch(query,param)[0][0]
+        params = [email]
+        return db.fetch(query,params)[0][0]
 
     
 
