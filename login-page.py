@@ -53,35 +53,61 @@ heading=Label(frame,text='Sign in',fg='#57a1f8' ,bg='white' ,font=('Microsoft Ya
 heading.place(x=100,y=5)
 
 #########----------------------------------------------------------
+# Vide le contenu de la zone de texte de l'email
+
 def on_enter(e):
     user.delete(0, 'end')
 
+# Rempli la zone de texte de l'email avec le mot 'Email'
+    
 def on_leave(e):
     name = user.get()
     if name =='':
         user.insert(0, 'Email')
-        
+
+
+# Créer la zone de texte pour l'email   
+             
 user = Entry(frame,width=25,fg='black',border=0,bg="white",font=('Microsoft YaHei UI Light', 11))
 user.place(x=30,y=80)
 user.insert(0,'Email')
+
+# Supprime le contenu de la zone de texte quand on clique à l'intérieur
+
 user.bind('<FocusIn>',on_enter)
+
+# Rempli de nouveau la zone de texte lorsqu'on quitte cette dernière
+
 user.bind('<FocusOut>',on_leave)
 
 Frame(frame,width=295,height=2,bg='black').place(x=25,y=177)
 
 #########----------------------------------------------------------
+
+# Vide le contenu de la zone de texte du mdp
+
 def on_enter(e):
     code.delete(0, 'end')
+
+# Rempli la zone de texte du mdp avec le mot 'Password'
 
 def on_leave(e):
     name = code.get()
     if name == '':
         code.insert(0, 'Password')
 
+# Créer la zone de texte pour le mdp  
+
 code = Entry(frame,width=25,fg='black',border=0,bg="white",font=('Microsoft YaHei UI Light', 11))
 code.place(x=30,y=150)
 code.insert(0,'Password')
+
+# Supprime le contenu de la zone de texte quand on clique à l'intérieur
+
 code.bind('<FocusIn>',on_enter)
+
+# Rempli de nouveau la zone de texte lorsqu'on quitte cette dernière
+
 code.bind('<FocusOut>',on_leave)
 
 Frame(frame,width=295,height=2,bg='black').place(x=25,y=177)
