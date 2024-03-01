@@ -59,7 +59,7 @@ def on_enter(e):
 def on_leave(e):
     name = user.get()
     if name =='':
-        user.insert(0, 'Password')
+        user.insert(0, 'Email')
         
 user = Entry(frame,width=25,fg='black',border=0,bg="white",font=('Microsoft YaHei UI Light', 11))
 user.place(x=30,y=80)
@@ -74,8 +74,8 @@ def on_enter(e):
     code.delete(0, 'end')
 
 def on_leave(e):
-    name=code.get()
-    if name=='':
+    name = code.get()
+    if name == '':
         code.insert(0, 'Password')
 
 code = Entry(frame,width=25,fg='black',border=0,bg="white",font=('Microsoft YaHei UI Light', 11))
