@@ -32,6 +32,11 @@ class Channel:
         queries = (f'select name from channel where id = {id_channel}')
         return self.db.fetch(queries)
     
+    def getNameChannelWithName(self,name):
+        queries = ('select id from channel where name = %s')
+        params=(name,)
+        return self.db.fetch(queries,params)
+    
     def countAllChannel(self,id_user):
         query=("SELECT COUNT(*) FROM right_channel where id_user=%s")
         params=(id_user,)
@@ -43,7 +48,6 @@ class Channel:
         return self.db.fetch(queries,params)
 
 channel=Channel()
-print(channel.numberChannelForUser(1)[1][0])
-
+print(channel.getNameChannelWithName('canal2')[::-1][0][0])
 
 
