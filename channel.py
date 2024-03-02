@@ -4,7 +4,6 @@ from db import Db
 class Channel:
     def __init__(self):
         self.db=Db('ilyes-chabab.students-laplateforme.io','ilyes-chabab','Nitrate13140','ilyes-chabab_myDiscord')
-        # self.db=Db('localhost','root','root','discord')
         self.db.connect()
 
     def createChannel(self,nameChannel):

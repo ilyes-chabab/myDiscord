@@ -34,4 +34,4 @@ class Right(Channel):
     
 right=Right()
 print(right.readRight())
-right.addUser(3,1)
+right.addUser(3,2)

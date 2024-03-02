@@ -36,6 +36,5 @@ class Message:
         return self.db.fetch(query,params)
 
 message1=Message()
-message1.createMessage("youhouuuuuu",1,1)
 print(message1.getHeure("test3",1,1))
 print(message1.readMessage())
