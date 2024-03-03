@@ -4,7 +4,7 @@ class User():
     def __init__(self):
         pass
 
-    def createUser(self ,email ,surname ,firstname,password):
+    def createUser(email ,surname ,firstname,password):
         # Permet la création d'un utilisateur
         queries = ("""
             INSERT INTO user(email ,surname, firstname ,password ,state)
@@ -50,15 +50,15 @@ class User():
         params = [id]
         db.executeQuery(queries,params)
         
-    def Connection(self):
+    def Connection(email):
         # Modifie la colonne 'state' de l'utilisateur pour le rendre hors-ligne
         # Appel lorsqu'on appuie sur le boutton Connection
         queries = ("""
             UPDATE user
             SET state = online
-            WHERE id = %s
+            WHERE email = %s
             """)
-        params = (id)
+        params = [email]
         db.executeQuery(queries, params)
         
     
@@ -107,12 +107,12 @@ class User():
 
 # methode qui sert a return l'id de l'user afin de l'inserer dans des channel et pour que ses message lui soit associés
                    
-    def get_user_id(self,email): 
+    def get_user_id(email): 
         query = ("""
                  select id from user
                  where email = (%s)
                  """)
-        param=(email)
+        param = (email)
         return db.fetch(query,param)[0][0]
 
     
@@ -122,7 +122,7 @@ db = Db("ilyes-chabab.students-laplateforme.io" ,"ilyes-chabab" ,"Nitrate13140" 
 user = User()
 # user.createUser("oleoleg@dongz.com","cricri" ,"ovor" ,"ippon123")
 # print(user.get_user_id('oleoleg@dongz.com'))
-# user.deleteUser(3)
+# user.deleteUser(7)
 # user.updateUser("boing" ,"ding" ,2)
 # print (user.checkForAccount('dingdong@boing.com'))
 # user.checkForConnection()

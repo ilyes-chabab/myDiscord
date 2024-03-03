@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+from User import *
 
 window=Tk()
 window.title("SignUp")
@@ -15,6 +16,23 @@ frame.place(x=480, y=30)
 
 heading = Label(frame, text='Sign Up', fg="#57a1f8", bg='white', font=('Microsoft Yahei UI Light', 23, 'bold'))
 heading.place(x=100, y=5)
+
+
+#####--------------------------------------------------------
+
+def sign_in():
+    email_value = user.get()
+    surname_value = surname.get()
+    firstname_value = firstname.get()
+    password_value = code.get()
+
+    User.createUser(email_value, surname_value, firstname_value, password_value)
+
+    user_id = User.get_user_id(email_value)
+
+    User.Connection(email_value)
+
+
 
 #####--------------------------------------------------------
 def on_enter_user(e):
@@ -85,7 +103,7 @@ Frame(frame, width=295, height=2, bg='black').place(x=25, y=257)
 
 #####--------------------------------------------------------
 
-Button(frame, width=39, pady=7, text='Sign up', bg='#57a1f8', fg='white', border=0,).place(x=35, y=280)
+Button(frame, width=39, pady=7, text='Sign up', bg='#57a1f8', fg='white', border=0, command=sign_in).place(x=35, y=280)
 label=Label(frame,text='I have an account',fg='black',bg='white',font=('Microsoft YaHei UI Light',9))
 label.place(x=90,y=340)
 
