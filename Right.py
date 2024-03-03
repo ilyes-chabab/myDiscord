@@ -17,7 +17,7 @@ class Right:
         return self.db.fetch(query)
     
     def updateRight(self,new_right,id_channel,id_user):
-        queries=('UPDATE right_channel SET `right` = %s WHERE id_channel = %s and id_user= %s')
+        queries=('UPDATE right_channel SET right_number = %s WHERE id_channel = %s and id_user= %s')
         params=(new_right,id_channel,id_user)
         self.db.executeQuery(queries,params)
     
@@ -35,11 +35,16 @@ class Right:
         queries=("select id from user where surname=%s")
         params=(name,)
         return self.db.fetch(queries,params)
+    
+    def getRightNumber(self,id_channel,id_user):
+        queries=('select right_number from right_channel where id_channel=%s and id_user=%s')
+        params=(id_channel,id_user)
+        return self.db.fetch(queries,params)
         
         
 
     
 right=Right()
-# right.deleteUser(9,1)
+right.updateRight(2,9,1)
 print(right.readRight())
 

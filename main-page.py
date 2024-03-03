@@ -104,6 +104,14 @@ class main_page:
         # Effacer le texte lorsqu'on clique sur le champ de saisie
         self.entry_kick_user.delete(0, tk.END)
     
+    def clear_text_entry_put_admin_user(self,event):
+        # Effacer le texte lorsqu'on clique sur le champ de saisie
+        self.entry_put_admin_user.delete(0, tk.END)
+
+    def clear_text_entry_remove_admin_user(self,event):
+        # Effacer le texte lorsqu'on clique sur le champ de saisie
+        self.entry_remove_admin_user.delete(0, tk.END)
+
     def add_user_main(self):
         self.input_name_user_add=self.entry_add_user.get()
         print(self.input_name_user_add)
@@ -116,8 +124,40 @@ class main_page:
         id_of_user=right.getIdUser(self.input_name_user_kick)[0][0]
         print(self.number_channel)
         print(id_of_user)
-        right.deleteUser(self.number_channel,id_of_user)
-
+        if right.getRightNumber(self.number_channel,self.id_user)[0][0]==1: #si l'utilisateur qui fait la requete est admin
+            right.deleteUser(self.number_channel,id_of_user)
+            print(f'{self.input_name_user_kick} a été expulsé')
+        else:
+            print("l'utilisateur n'a pas les droits necessaires")
+        
+    
+    def put_admin_user_main(self):
+        self.input_admin_user=self.entry_put_admin_user.get()
+        print(self.input_admin_user)
+        id_of_user=right.getIdUser(self.input_admin_user)[0][0]
+        print(self.number_channel)
+        print(id_of_user)
+        print(right.getRightNumber(self.number_channel,self.id_user)[0][0])
+        if right.getRightNumber(self.number_channel,self.id_user)[0][0]==1: #si l'utilisateur qui fait la requete est admin
+            right.updateRight(1,self.number_channel,id_of_user)
+            print(f'{self.input_admin_user} est devenue admin')
+        else:
+            print("l'utilisateur n'a pas les droits necessaires")
+        print(right.readRight())
+    
+    def remove_admin_user_main(self):
+        self.input_remove_admin_user=self.entry_remove_admin_user.get()
+        print(self.input_remove_admin_user)
+        id_of_user=right.getIdUser(self.input_remove_admin_user)[0][0]
+        print(self.number_channel)
+        print(id_of_user)
+        print(right.getRightNumber(self.number_channel,self.id_user)[0][0])
+        if right.getRightNumber(self.number_channel,self.id_user)[0][0]==1: #si l'utilisateur qui fait la requete est admin
+            right.updateRight(2,self.number_channel,id_of_user)
+            print(f"{self.input_remove_admin_user} est devenue membre")
+        else:
+            print("l'utilisateur n'a pas les droits necessaires")
+        print(right.readRight())
 
     def main(self):
         # Définir la taille de la fenêtre
@@ -172,6 +212,28 @@ class main_page:
         self.entry_kick_user.bind("<Button-1>", self.clear_text_entry_kick_user)
         self.input_name_user_kick=''
 
+        self.button_put_admin_user = Button(self.root, text="mettre ", command=self.put_admin_user_main, width=10, height=1)
+        self.button_put_admin_user.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
+        self.button_put_admin_user.place(x=240, y=300)
+
+        self.entry_put_admin_user = Entry(self.root, width=40)
+        self.entry_put_admin_user.pack(pady=20, padx=100)
+        self.entry_put_admin_user.place(x=10, y=300)
+        self.entry_put_admin_user.insert(0, "nom de l'utilisateur")
+        self.entry_put_admin_user.bind("<Button-1>", self.clear_text_entry_put_admin_user)
+        self.input_admin_user=''
+
+        self.button_remove_admin_user = Button(self.root, text="enlever ", command=self.remove_admin_user_main, width=10, height=1)
+        self.button_remove_admin_user.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
+        self.button_remove_admin_user.place(x=240, y=360)
+
+        self.entry_remove_admin_user = Entry(self.root, width=40)
+        self.entry_remove_admin_user.pack(pady=20, padx=100)
+        self.entry_remove_admin_user.place(x=10, y=360)
+        self.entry_remove_admin_user.insert(0, "nom de l'utilisateur")
+        self.entry_remove_admin_user.bind("<Button-1>", self.clear_text_entry_remove_admin_user)
+        self.input_remove_user=''
+
         # Création d'un label
         label_create_channel = tk.Label(self.root, text="Creer un channel :", font=("Arial", 12))
         # Placement du label à un endroit précis (en pixels)
@@ -182,6 +244,12 @@ class main_page:
 
         label_kick_user = tk.Label(self.root, text="expulsez un utilisateur :", font=("Arial", 12))
         label_kick_user.place(x=0, y=210)
+
+        label_kick_user = tk.Label(self.root, text="ajouter un admin :", font=("Arial", 12))
+        label_kick_user.place(x=0, y=270)
+
+        label_remove_admin_user = tk.Label(self.root, text="enlever un admin :", font=("Arial", 12))
+        label_remove_admin_user.place(x=0, y=330)
 
         self.button_send = Button(self.root, text="Envoyer", command=self.get_input, width=10, height=1)
         self.button_send.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
