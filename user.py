@@ -96,6 +96,7 @@ class User():
         # Permet de renvoyer True si l'utilisateur est connecté
         queries = ("""
                     SELECT state FROM user
+                    
                    """)
         checkUser = db.fetch(queries)
         for user in checkUser:
@@ -107,7 +108,7 @@ class User():
 
 # methode qui sert a return l'id de l'user afin de l'inserer dans des channel et pour que ses message lui soit associés
                    
-    def get_user_id(self,email): 
+    def get_user_id(email): 
         query = ("""
                  select id from user
                  where email = (%s)
