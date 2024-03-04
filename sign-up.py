@@ -28,8 +28,12 @@ def sign_in():
     firstname_value = firstname.get()
     password_value = code.get()
 
-    # Création d'un nouvel utilisateur dans la bdd avec les informations saisies
-    User.createUser(email_value, surname_value, firstname_value, password_value)
+    # Vérifie si l'utilisateur n'a pas déja crée un compte grâce à son adresse mail
+    if User.checkForAccount(email_value) == True:
+        messagebox.showerror('Invalid', 'Your email is already associed to an account')
+    else:
+        # Sinon ,création d'un nouvel utilisateur dans la bdd avec les informations saisies
+        User.createUser(email_value, surname_value, firstname_value, password_value)
 
     # Récupération de l'ID de l'utilisateur créé
     user_id = User.get_user_id(email_value)
