@@ -14,11 +14,12 @@ class main_page:
         self.channel=Channel()
         self.root = tk.Tk()
         self.root.title('main-page') 
-        self.id_user=1
+        self.id_user=2
         self.id_channel=0
         self.number_channel=self.channel.numberChannelForUser(self.id_user)[self.id_channel][0]
         self.name_channel=self.channel.getNameChannel(self.number_channel)
         self.tree = ttk.Treeview(self.root, columns= ('id_user_emeteur','heure', 'message'))
+        self.name= Right.getNameUser(self,self.id_user)
         
         self.messaging()
 
@@ -50,7 +51,7 @@ class main_page:
     def entry_input(self):
         self.entry = Entry(self.root, width=90)
         self.entry.pack(pady=20, padx=100)
-        self.entry.place(x=400, y=550)  # Positionner la barre d'entrée à x=100, y=50
+        self.entry.place(x=500, y=550)  # Positionner la barre d'entrée 
         self.input = ""
 
     def get_input(self):
@@ -158,6 +159,9 @@ class main_page:
         else:
             print("l'utilisateur n'a pas les droits necessaires")
         print(right.readRight())
+    
+    def deconnection(self):
+        print("deconnection")
 
     def main(self):
         # Définir la taille de la fenêtre
@@ -174,10 +178,6 @@ class main_page:
         self.button = Button(self.root, text=self.name_channel, command=self.messaging, width=46, height=5)
         self.button.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
         self.button.place(x=0, y=400)
-
-        self.button_send = Button(self.root, text="Envoyer", command=self.get_input, width=10, height=1)
-        self.button_send.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
-        self.button_send.place(x=950, y=550)
     
         self.button_create_channel = Button(self.root, text="Creer  ", command=self.create_channel_main, width=10, height=1)
         self.button_create_channel.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
@@ -251,9 +251,19 @@ class main_page:
         label_remove_admin_user = tk.Label(self.root, text="enlever un admin :", font=("Arial", 12))
         label_remove_admin_user.place(x=0, y=330)
 
+        label_remove_account_of = tk.Label(self.root, text="compte de :", font=("Arial", 12))
+        label_remove_account_of.place(x=350, y=450)
+
+        label_remove_account_of_name = tk.Label(self.root, text=self.name, font=("Arial", 11))
+        label_remove_account_of_name.place(x=350, y=480)
+
         self.button_send = Button(self.root, text="Envoyer", command=self.get_input, width=10, height=1)
         self.button_send.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
-        self.button_send.place(x=950, y=550)
+        self.button_send.place(x=1000, y=550)
+
+        self.button_deconnection = Button(self.root, text="Déconnection", command=self.deconnection, width=10, height=1)
+        self.button_deconnection.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
+        self.button_deconnection.place(x=350, y=550)
 
         button_up = Button(self.root, text="^", command=self.up, width=46, height=5)
         button_up.pack(pady=0, padx=0)  # Ajout d'un espacement autour du bouton
@@ -271,5 +281,6 @@ main = main_page()
 message=Message()
 channel=Channel()
 right=Right()
+
 if __name__ == "__main__":
     main.main()

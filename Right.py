@@ -36,6 +36,11 @@ class Right:
         params=(name,)
         return self.db.fetch(queries,params)
     
+    def getNameUser(self,id):
+        queries=("select surname from user where id=%s")
+        params=(id,)
+        return self.db.fetch(queries,params)[0][0]
+    
     def getRightNumber(self,id_channel,id_user):
         queries=('select right_number from right_channel where id_channel=%s and id_user=%s')
         params=(id_channel,id_user)
@@ -45,6 +50,4 @@ class Right:
 
     
 right=Right()
-right.updateRight(2,9,1)
-print(right.readRight())
-
+print(right.getNameUser(1))
