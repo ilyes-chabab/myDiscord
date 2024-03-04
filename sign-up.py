@@ -29,8 +29,8 @@ def sign_in():
     User.createUser(email_value, surname_value, firstname_value, password_value)
 
     user_id = User.get_user_id(email_value)
-
-    User.Connection(email_value)
+    
+    User.Connection(user_id)
 
 
 

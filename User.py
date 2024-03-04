@@ -50,19 +50,19 @@ class User():
         params = [id]
         db.executeQuery(queries,params)
         
-    def Connection(email):
-        # Modifie la colonne 'state' de l'utilisateur pour le rendre hors-ligne
+    def Connection(id):
+        # Modifie la colonne 'state' de l'utilisateur pour le rendre 'online'
         # Appel lorsqu'on appuie sur le boutton Connection
         queries = ("""
             UPDATE user
-            SET state = online
-            WHERE email = %s
+            SET state = 'online'
+            WHERE id = %s
             """)
-        params = [email]
+        params = [id]
         db.executeQuery(queries, params)
         
     
-    def Disconnection(self ,id):
+    def Disconnection(id):
         # Modifie la colonne 'state' de l'utilisateur pour le rendre hors-ligne
         # Appel lorsqu'on appuie sur le boutton Connection
         # if button_disconnection = True
@@ -110,9 +110,9 @@ class User():
     def get_user_id(email): 
         query = ("""
                  select id from user
-                 where email = (%s)
+                 where email = %s
                  """)
-        param = (email)
+        param = [email]
         return db.fetch(query,param)[0][0]
 
     
@@ -127,4 +127,5 @@ user = User()
 # print (user.checkForAccount('dingdong@boing.com'))
 # user.checkForConnection()
 # print (user.checkForPassword('dingdong@boing.com'))
+# User.Connection(13)
 # user.readUser()
