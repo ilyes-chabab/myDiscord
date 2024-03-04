@@ -21,7 +21,6 @@ def signin():
     # Vérifie que l'email et le password sont bien présent dans la table user et ouvre une fenêtre
     if User.checkForAccount(username) == True and password == User.checkForPassword(username):
          user_id = User.get_user_id(username)
-         print (user_id)
          screen=Toplevel(root)
          screen.title("App")
          screen.geometry('925x500+300+200')
