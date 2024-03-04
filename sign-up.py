@@ -22,17 +22,19 @@ heading.place(x=100, y=5)
 
 # Fonction pour gérer la soumission du formulaire d'inscription
 def sign_in():
+    # Permet de récupérer et d'utiliser les informations saisies par l'utilisateur
     email_value = user.get()
     surname_value = surname.get()
     firstname_value = firstname.get()
     password_value = code.get()
 
-    # Création d'un nouvel utilisateur avec les informations saisies
+    # Création d'un nouvel utilisateur dans la bdd avec les informations saisies
     User.createUser(email_value, surname_value, firstname_value, password_value)
 
     # Récupération de l'ID de l'utilisateur créé
     user_id = User.get_user_id(email_value)
     
+    # Changement de la valeur 'state' de l'utilisateur pour le rendre 'online'
     User.Connection(user_id)
 
 # Fonctions pour gérer les événements de focus sur les champs de saisie
