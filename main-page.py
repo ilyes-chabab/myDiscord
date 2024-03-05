@@ -13,14 +13,12 @@ class main_page:
         self.db=Db('ilyes-chabab.students-laplateforme.io','ilyes-chabab','Nitrate13140','ilyes-chabab_myDiscord')
         self.channel=Channel()
         self.root = tk.Tk()
-        self.root.title('main-page') 
+        self.root.title('myDiscord') 
         self.id_user=2
         self.id_channel=0
         self.number_channel=self.channel.numberChannelForUser(self.id_user)[self.id_channel][0]
         self.name_channel=self.channel.getNameChannel(self.number_channel)
         self.tree = ttk.Treeview(self.root, columns= ('id_user_emeteur','heure', 'message'))
-        
-        
         self.messaging()
 
     def messaging(self):
@@ -173,6 +171,17 @@ class main_page:
     def deconnection(self):
         print("deconnection")
 
+    def remove_channel_main(self):
+        if right.getRightNumber(self.number_channel,self.id_user)[0][0]==1: #si l'utilisateur qui fait la requete est admin
+            print(self.number_channel)
+            numberOfChannel=self.number_channel
+            channel.deleteChannel(numberOfChannel)
+            self.up()
+            right.deleteAllUser(numberOfChannel)
+            print(f"le channel avec n° {numberOfChannel} a été supprimé")    
+        else:
+            print("l'utilisateur n'a pas les droits necessaires")
+
     def main(self):
         # Définir la taille de la fenêtre
         self.root.geometry('1000x600')
@@ -189,9 +198,13 @@ class main_page:
         self.button.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
         self.button.place(x=0, y=400)
     
-        self.button_create_channel = Button(self.root, text="Creer  ", command=self.create_channel_main, width=10, height=1)
+        self.button_create_channel = Button(self.root, text="Creer", command=self.create_channel_main, width=10, height=1)
         self.button_create_channel.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
         self.button_create_channel.place(x=240, y=120)
+
+        self.button_remove_channel = Button(self.root, text="supprimer", command=self.remove_channel_main, width=10, height=1)
+        self.button_remove_channel.pack(pady=40, padx=333)  # Ajout d'un espacement autour du bouton
+        self.button_remove_channel.place(x=340, y=120)
 
         self.entry_channel = Entry(self.root, width=40)
         self.entry_channel.pack(pady=20, padx=100)
@@ -248,6 +261,9 @@ class main_page:
         label_create_channel = tk.Label(self.root, text="Creer un channel :", font=("Arial", 12))
         # Placement du label à un endroit précis (en pixels)
         label_create_channel.place(x=0, y=90)
+
+        label_create_channel = tk.Label(self.root, text="supprimer un channel :", font=("Arial", 10))
+        label_create_channel.place(x=340, y=90)
 
         label_add_user = tk.Label(self.root, text="ajouter un utilisateur :", font=("Arial", 12))
         label_add_user.place(x=0, y=150)

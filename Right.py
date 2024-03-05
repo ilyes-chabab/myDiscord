@@ -30,6 +30,11 @@ class Right:
         queries=("delete from right_channel where id_channel = %s and id_user = %s")
         params=(id_channel,id_user)
         self.db.executeQuery(queries,params)
+
+    def deleteAllUser(self,id_channel):
+        queries=("delete from right_channel where id_channel = %s")
+        params=(id_channel,)
+        self.db.executeQuery(queries,params)
     
     def getIdUser(self,name):
         queries=("select id from user where surname=%s")
@@ -50,4 +55,5 @@ class Right:
 
     
 right=Right()
-print(right.getNameUser(1))
+right.deleteAllUser(10)
+print(right.readRight())

@@ -48,6 +48,5 @@ class Channel:
         return self.db.fetch(queries,params)
 
 channel=Channel()
-print(channel.getNameChannelWithName('canal2')[::-1][0][0])
-
+print(channel.readchannel())
 
