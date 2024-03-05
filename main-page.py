@@ -19,7 +19,7 @@ class main_page:
         self.number_channel=self.channel.numberChannelForUser(self.id_user)[self.id_channel][0]
         self.name_channel=self.channel.getNameChannel(self.number_channel)
         self.tree = ttk.Treeview(self.root, columns= ('id_user_emeteur','heure', 'message'))
-        self.name= Right.getNameUser(self,self.id_user)
+        
         
         self.messaging()
 
@@ -49,10 +49,20 @@ class main_page:
             self.tree.insert('', 'end', values=row)
 
     def entry_input(self):
-        self.entry = Entry(self.root, width=90)
-        self.entry.pack(pady=20, padx=100)
+        self.max_caracteres = 65  # Définissez le nombre maximum de caractères autorisés
+
+        self.entry_var = StringVar()
+        self.entry = Entry(self.root, width=90, textvariable=self.entry_var)
+        self.entry.pack(pady=20, padx=50)
         self.entry.place(x=500, y=550)  # Positionner la barre d'entrée 
-        self.input = ""
+
+        # Configurez la validation pour limiter le nombre de caractères
+        self.entry_var.trace_add("write", self.valid_entry)
+
+    def valid_entry(self, *args):
+        new_valeur = self.entry_var.get()
+        if len(new_valeur) > self.max_caracteres:
+            self.entry_var.set(new_valeur[:self.max_caracteres])
 
     def get_input(self):
         # Utiliser la méthode get() pour récupérer le texte de l'Entry
@@ -254,6 +264,7 @@ class main_page:
         label_remove_account_of = tk.Label(self.root, text="compte de :", font=("Arial", 12))
         label_remove_account_of.place(x=350, y=450)
 
+        self.name= right.getNameUser(self.id_user)
         label_remove_account_of_name = tk.Label(self.root, text=self.name, font=("Arial", 11))
         label_remove_account_of_name.place(x=350, y=480)
 
