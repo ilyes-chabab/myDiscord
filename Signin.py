@@ -48,7 +48,7 @@ class LoginApp:
 
         # Bouton "Sign in"
         tk.Button(self.frame, width=39, pady=7, text='Sign in', bg='#57a1f8', fg='white', border=0,
-               command=self.signin).place(x=35, y=204)
+               command=lambda:[sign_in(),return_id()]).place(x=35, y=204)
 
         # Texte "Don't have an account?"
         tk.Label(self.frame, text="Don't have an account?", fg='black', bg='white',

@@ -47,7 +47,7 @@ class LoginApp:
 
         # Bouton "Sign in"
         tk.Button(self.frame, width=39, pady=7, text='Sign in', bg='#57a1f8', fg='white', border=0,
-               command=self.signin).place(x=35, y=204)
+               command=lambda:[self.sign_in(),self.return_id()]).place(x=35, y=204)
 
         # Texte "Don't have an account?"
         tk.Label(self.frame, text="Don't have an account?", fg='black', bg='white',
@@ -72,7 +72,7 @@ class LoginApp:
                 widget.insert(0, 'Password')  # Remplir avec "Password"
 
     # Méthode pour gérer la connexion
-    def signin(self):
+    def sign_in(self):
         username = self.user.get()
         password = self.code.get()
 
@@ -90,6 +90,12 @@ class LoginApp:
 
         elif username != User.checkForAccount(username):
             messagebox.showerror('Invalid', 'Invalid email')
+    
+    # Fonction pour retourner l'ID de l'utilisateur
+    def return_id(self):
+        email_value = self.user.get()
+        user_id = User.get_user_id(email_value)
+        return user_id
 
     # Méthode pour ouvrir l'écran d'inscription
     def open_signup(self):
@@ -168,8 +174,8 @@ class SignUpApp:
         tk.Frame(self.frame, width=295, height=2, bg='black').place(x=25, y=257)
 
         # Bouton pour soumettre le formulaire d'inscription
-        self.sign_in_button = tk.Button(self.frame, width=39, pady=7, text='Sign up', bg='#57a1f8', fg='white', border=0, command=self.sign_in)
-        self.sign_in_button.place(x=35, y=280)
+        self.sign_up_button = tk.Button(self.frame, width=39, pady=7, text='Sign up', bg='#57a1f8', fg='white', border=0, command=lambda:[self.sign_up(),self.return_id()])
+        self.sign_up_button.place(x=35, y=280)
 
         # Label pour indiquer la possibilité de se connecter si déjà inscrit
         self.label = tk.Label(self.frame, text='I have an account', fg='black', bg='white', font=('Microsoft YaHei UI Light',9))
@@ -209,7 +215,7 @@ class SignUpApp:
             self.code.insert(0, 'Password')
 
     # Fonction pour gérer la soumission du formulaire d'inscription
-    def sign_in(self):
+    def sign_up(self):
         email_value = self.user.get()
         surname_value = self.surname.get()
         firstname_value = self.firstname.get()
