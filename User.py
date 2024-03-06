@@ -122,7 +122,7 @@ db = Db("ilyes-chabab.students-laplateforme.io" ,"ilyes-chabab" ,"Nitrate13140" 
 user = User()
 # user.createUser("oleoleg@dongz.com","cricri" ,"ovor" ,"ippon123")
 # print(user.get_user_id('oleoleg@dongz.com'))
-# user.deleteUser(3)
+# user.deleteUser(21)
 # user.updateUser("boing" ,"ding" ,2)
 # print (user.checkForAccount('dingdong@boing.com'))
 # user.checkForConnection()

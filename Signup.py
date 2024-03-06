@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from User import *
+from Signin import LoginApp
 
 class SignUpApp:
     def __init__(self, master):
@@ -67,7 +68,7 @@ class SignUpApp:
         self.label.place(x=90, y=340)
 
         # Bouton pour se connecter si déjà inscrit
-        self.signin = tk.Button(self.frame, width=6, text='Sign in', border=0, bg='white', cursor='hand2', fg='#57a1f8', command=self.sign_in)
+        self.signin = tk.Button(self.frame, width=6, text='Sign in', border=0, bg='white', cursor='hand2', fg='#57a1f8', command=self.open_login)
         self.signin.place(x=200, y=340)
 
     # Fonctions pour gérer les événements de focus sur les champs de saisie
@@ -117,7 +118,9 @@ class SignUpApp:
         user_id = User.get_user_id(email_value)
         return user_id
 
-# Création de la fenêtre principale et lancement de l'application
-root = tk.Tk()
-app = SignUpApp(root)
-root.mainloop()
+    # Fonction pour ouvrir l'écran de connexion
+    def open_login(self):
+        self.master.destroy()  # Fermer la fenêtre d'inscription
+        login_screen = tk.Tk()  # Créer une nouvelle fenêtre de connexion
+        login_app = LoginApp(login_screen)  # Initialiser l'application de connexion
+        login_screen.mainloop()  # Lancer l'application de connexion

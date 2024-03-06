@@ -1,6 +1,7 @@
-from tkinter import *
+import tkinter as tk
 from tkinter import messagebox
 from User import *
+from Signup import SignUpApp
 
 class LoginApp:
     def __init__(self, master):
@@ -12,19 +13,19 @@ class LoginApp:
         master.resizable(False, False)  # Empêcher le redimensionnement de la fenêtre
 
         # Création d'un espace vide en haut de la fenêtre
-        Label(master, bg='white').place(x=50, y=50)
+        tk.Label(master, bg='white').place(x=50, y=50)
 
         # Création d'un cadre pour contenir les éléments de la fenêtre
-        self.frame = Frame(master, width=350, height=350, bg="white")
+        self.frame = tk.Frame(master, width=350, height=350, bg="white")
         self.frame.place(x=480, y=70)
 
         # Titre "Sign in"
-        self.heading = Label(self.frame, text='Sign in', fg='#57a1f8', bg='white',
+        self.heading = tk.Label(self.frame, text='Sign in', fg='#57a1f8', bg='white',
                              font=('Microsoft YaHei UI Light', 23, 'bold'))
         self.heading.place(x=100, y=5)
 
         # Champ de saisie pour l'email
-        self.user = Entry(self.frame, width=25, fg='black', border=0, bg="white",
+        self.user = tk.Entry(self.frame, width=25, fg='black', border=0, bg="white",
                           font=('Microsoft YaHei UI Light', 11))
         self.user.place(x=30, y=80)
         self.user.insert(0, 'Email')
@@ -32,10 +33,10 @@ class LoginApp:
         self.user.bind('<FocusOut>', self.on_leave)  # Gestion de l'événement "FocusOut"
 
         # Ligne de séparation
-        Frame(self.frame, width=295, height=2, bg='black').place(x=25, y=177)
+        tk.Frame(self.frame, width=295, height=2, bg='black').place(x=25, y=177)
 
         # Champ de saisie pour le mot de passe
-        self.code = Entry(self.frame, width=25, fg='black', border=0, bg="white",
+        self.code = tk.Entry(self.frame, width=25, fg='black', border=0, bg="white",
                           font=('Microsoft YaHei UI Light', 11))
         self.code.place(x=30, y=150)
         self.code.insert(0, 'Password')
@@ -43,19 +44,19 @@ class LoginApp:
         self.code.bind('<FocusOut>', self.on_leave)  # Gestion de l'événement "FocusOut"
 
         # Ligne de séparation
-        Frame(self.frame, width=295, height=2, bg='black').place(x=25, y=177)
+        tk.Frame(self.frame, width=295, height=2, bg='black').place(x=25, y=107)
 
         # Bouton "Sign in"
-        Button(self.frame, width=39, pady=7, text='Sign in', bg='#57a1f8', fg='white', border=0,
+        tk.Button(self.frame, width=39, pady=7, text='Sign in', bg='#57a1f8', fg='white', border=0,
                command=self.signin).place(x=35, y=204)
 
         # Texte "Don't have an account?"
-        Label(self.frame, text="Don't have an account?", fg='black', bg='white',
+        tk.Label(self.frame, text="Don't have an account?", fg='black', bg='white',
               font=('Microsoft YaHei UI Light', 9)).place(x=75, y=270)
 
         # Bouton "Sign up"
-        Button(self.frame, width=6, text='Sign up', border=0, bg='white', cursor='hand2', fg='#57a1f8').place(x=215,
-                                                                                                                y=270)
+        tk.Button(self.frame, width=6, text='Sign up', border=0, bg='white', cursor='hand2', fg='#57a1f8',
+               command=self.open_signup).place(x=215, y=270)
 
     # Méthode appelée lorsqu'on entre dans un champ de saisie
     def on_enter(self, e):
@@ -79,11 +80,8 @@ class LoginApp:
         # Vérification des informations d'identification
         if User.checkForAccount(username) and password == User.checkForPassword(username):
             user_id = User.get_user_id(username)
-            screen = Toplevel(self.master)
-            screen.title("App")
-            screen.geometry('925x500+300+200')
-            screen.config(bg="white")
-            Label(screen, text='Hello Everyone!', bg='#fff', font=('Calibri(Body)', 50, 'bold')).pack(expand=True)
+            self.master.withdraw()  # Masquer la fenêtre de connexion
+            self.open_app_screen(user_id)  # Ouvrir l'écran d'application avec l'ID de l'utilisateur
 
         elif username != User.checkForAccount(username) and password != User.checkForPassword(username):
             messagebox.showerror('Invalid', 'Invalid email and password')
@@ -94,7 +92,28 @@ class LoginApp:
         elif username != User.checkForAccount(username):
             messagebox.showerror('Invalid', 'Invalid email')
 
-# Création de la fenêtre principale et lancement de l'application
-root = Tk()
+    # Méthode pour ouvrir l'écran d'inscription
+    def open_signup(self):
+        self.master.withdraw()  # Masquer la fenêtre de connexion
+        signup_screen = tk.Toplevel(self.master)  # Créer une nouvelle fenêtre pour l'inscription
+        signup_app = SignUpApp(signup_screen)  # Initialiser l'application d'inscription
+        signup_screen.protocol("WM_DELETE_WINDOW", lambda: self.on_close_signup(signup_screen))  # Définir une action lorsque la fenêtre est fermée
+
+    # Méthode pour ouvrir l'écran d'application après la connexion
+    def open_app_screen(self, user_id):
+        app_screen = tk.Toplevel(self.master)  # Créer une nouvelle fenêtre pour l'application
+        app_screen.title("App")
+        app_screen.geometry('925x500+300+200')
+        app_screen.config(bg="white")
+        tk.Label(app_screen, text='Hello Everyone!', bg='#fff', font=('Calibri(Body)', 50, 'bold')).pack(expand=True)
+
+    # Méthode appelée lorsque la fenêtre d'inscription est fermée
+    def on_close_signup(self, signup_screen):
+        self.master.deiconify()  # Réafficher la fenêtre de connexion lorsque la fenêtre d'inscription est fermée
+        signup_screen.destroy()  # Détruire la fenêtre d'inscription pour libérer les ressources
+
+# Création de la fenêtre principale et lancement de l'application de connexion
+# if __name__ == "__main__":
+root = tk.Tk()
 app = LoginApp(root)
 root.mainloop()
