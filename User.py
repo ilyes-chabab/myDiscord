@@ -4,7 +4,7 @@ class User():
     def __init__(self):
         pass
 
-    def createUser(self ,email ,surname ,firstname,password):
+    def createUser(email ,surname ,firstname,password):
         # Permet la création d'un utilisateur
         queries = ("""
             INSERT INTO user(email ,surname, firstname ,password ,state)

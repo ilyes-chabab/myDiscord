@@ -2,124 +2,99 @@ from tkinter import *
 from tkinter import messagebox
 from User import *
 
+class LoginApp:
+    def __init__(self, master):
+        # Initialisation de l'application avec la fenêtre principale comme maître
+        self.master = master
+        master.title('Login')  # Titre de la fenêtre
+        master.geometry('925x550+300+200')  # Taille et position de la fenêtre
+        master.configure(bg="#fff")  # Couleur de fond de la fenêtre
+        master.resizable(False, False)  # Empêcher le redimensionnement de la fenêtre
 
-# Permet de définir la fenêtre et ses caractéristiques
+        # Création d'un espace vide en haut de la fenêtre
+        Label(master, bg='white').place(x=50, y=50)
 
-root=Tk()
-root.title('Login')
-root.geometry('925x550+300+200')
-root.configure(bg="#fff")
-root.resizable(False,False)
+        # Création d'un cadre pour contenir les éléments de la fenêtre
+        self.frame = Frame(master, width=350, height=350, bg="white")
+        self.frame.place(x=480, y=70)
 
-# Fonction qui s'appelle lorsqu'on clique sur le bouton sign in et qui permet l'accès à la page principale
+        # Titre "Sign in"
+        self.heading = Label(self.frame, text='Sign in', fg='#57a1f8', bg='white',
+                             font=('Microsoft YaHei UI Light', 23, 'bold'))
+        self.heading.place(x=100, y=5)
 
-def signin():
-    # Variable qui récupère l'email et le mdp entré par l'user
-    username = user.get()
-    password = code.get()
-    
-    # Vérifie que l'email et le password sont bien présent dans la table user et ouvre une fenêtre
-    if User.checkForAccount(username) == True and password == User.checkForPassword(username):
-         user_id = User.get_user_id(username)
-         screen=Toplevel(root)
-         screen.title("App")
-         screen.geometry('925x500+300+200')
-         screen.config(bg="white")
-         
-         Label(screen,text='Hello Everyone!',bg='#fff',font=('Calibri(Body)',50,'bold')).pack(expand=True)
+        # Champ de saisie pour l'email
+        self.user = Entry(self.frame, width=25, fg='black', border=0, bg="white",
+                          font=('Microsoft YaHei UI Light', 11))
+        self.user.place(x=30, y=80)
+        self.user.insert(0, 'Email')
+        self.user.bind('<FocusIn>', self.on_enter)  # Gestion de l'événement "FocusIn"
+        self.user.bind('<FocusOut>', self.on_leave)  # Gestion de l'événement "FocusOut"
 
-         screen.mainloop()
+        # Ligne de séparation
+        Frame(self.frame, width=295, height=2, bg='black').place(x=25, y=177)
 
-    # Message d'erreur lorsque l'email et le mdp sont invalide
-    elif username != User.checkForAccount(username) and password != User.checkForPassword(username):
-         messagebox.showerror('Invalid', 'Invalid email and password')
-    
-    # Message d'erreur lorsque le mdp est invalide
+        # Champ de saisie pour le mot de passe
+        self.code = Entry(self.frame, width=25, fg='black', border=0, bg="white",
+                          font=('Microsoft YaHei UI Light', 11))
+        self.code.place(x=30, y=150)
+        self.code.insert(0, 'Password')
+        self.code.bind('<FocusIn>', self.on_enter)  # Gestion de l'événement "FocusIn"
+        self.code.bind('<FocusOut>', self.on_leave)  # Gestion de l'événement "FocusOut"
 
-    elif password != User.checkForPassword(username):
-        messagebox.showerror('Invalid', 'Invalid password')
+        # Ligne de séparation
+        Frame(self.frame, width=295, height=2, bg='black').place(x=25, y=177)
 
-    # Message d'erreur lorsque l'email est invalide
-        
-    elif username != User.checkForAccount(username):
-        messagebox.showerror('Invalid', 'Invalid email')
+        # Bouton "Sign in"
+        Button(self.frame, width=39, pady=7, text='Sign in', bg='#57a1f8', fg='white', border=0,
+               command=self.signin).place(x=35, y=204)
 
+        # Texte "Don't have an account?"
+        Label(self.frame, text="Don't have an account?", fg='black', bg='white',
+              font=('Microsoft YaHei UI Light', 9)).place(x=75, y=270)
 
-Label(root,bg='white').place(x=50,y=50)
+        # Bouton "Sign up"
+        Button(self.frame, width=6, text='Sign up', border=0, bg='white', cursor='hand2', fg='#57a1f8').place(x=215,
+                                                                                                                y=270)
 
-frame=Frame(root,width=350,height=350,bg="white")
-frame.place(x=480,y=70)
+    # Méthode appelée lorsqu'on entre dans un champ de saisie
+    def on_enter(self, e):
+        widget = e.widget
+        widget.delete(0, 'end')  # Supprime le texte existant dans le champ de saisie
 
-heading=Label(frame,text='Sign in',fg='#57a1f8' ,bg='white' ,font=('Microsoft YaHei UI Light',23, 'bold'))
-heading.place(x=100,y=5)
+    # Méthode appelée lorsqu'on quitte un champ de saisie
+    def on_leave(self, e):
+        widget = e.widget
+        if widget.get() == '':  # Si le champ de saisie est vide
+            if widget == self.user:  # Si c'est le champ de l'email
+                widget.insert(0, 'Email')  # Remplir avec "Email"
+            else:  # Sinon (champ du mot de passe)
+                widget.insert(0, 'Password')  # Remplir avec "Password"
 
-#########----------------------------------------------------------
-# Vide le contenu de la zone de texte de l'email
+    # Méthode pour gérer la connexion
+    def signin(self):
+        username = self.user.get()
+        password = self.code.get()
 
-def on_enter(e):
-    user.delete(0, 'end')
+        # Vérification des informations d'identification
+        if User.checkForAccount(username) and password == User.checkForPassword(username):
+            user_id = User.get_user_id(username)
+            screen = Toplevel(self.master)
+            screen.title("App")
+            screen.geometry('925x500+300+200')
+            screen.config(bg="white")
+            Label(screen, text='Hello Everyone!', bg='#fff', font=('Calibri(Body)', 50, 'bold')).pack(expand=True)
 
-# Rempli la zone de texte de l'email avec le mot 'Email'
-    
-def on_leave(e):
-    name = user.get()
-    if name =='':
-        user.insert(0, 'Email')
+        elif username != User.checkForAccount(username) and password != User.checkForPassword(username):
+            messagebox.showerror('Invalid', 'Invalid email and password')
 
+        elif password != User.checkForPassword(username):
+            messagebox.showerror('Invalid', 'Invalid password')
 
-# Créer la zone de texte pour l'email   
-             
-user = Entry(frame,width=25,fg='black',border=0,bg="white",font=('Microsoft YaHei UI Light', 11))
-user.place(x=30,y=80)
-user.insert(0,'Email')
+        elif username != User.checkForAccount(username):
+            messagebox.showerror('Invalid', 'Invalid email')
 
-# Supprime le contenu de la zone de texte quand on clique à l'intérieur
-
-user.bind('<FocusIn>',on_enter)
-
-# Rempli de nouveau la zone de texte lorsqu'on quitte cette dernière
-
-user.bind('<FocusOut>',on_leave)
-
-Frame(frame,width=295,height=2,bg='black').place(x=25,y=177)
-
-#########----------------------------------------------------------
-
-# Vide le contenu de la zone de texte du mdp
-
-def on_enter(e):
-    code.delete(0, 'end')
-
-# Rempli la zone de texte du mdp avec le mot 'Password'
-
-def on_leave(e):
-    name = code.get()
-    if name == '':
-        code.insert(0, 'Password')
-
-# Créer la zone de texte pour le mdp  
-
-code = Entry(frame,width=25,fg='black',border=0,bg="white",font=('Microsoft YaHei UI Light', 11))
-code.place(x=30,y=150)
-code.insert(0,'Password')
-
-# Supprime le contenu de la zone de texte quand on clique à l'intérieur
-
-code.bind('<FocusIn>',on_enter)
-
-# Rempli de nouveau la zone de texte lorsqu'on quitte cette dernière
-
-code.bind('<FocusOut>',on_leave)
-
-Frame(frame,width=295,height=2,bg='black').place(x=25,y=177)
-
-###############################################################
-
-Button(frame,width=39,pady=7,text='Sign in',bg='#57a1f8' ,fg='white',border=0, command=signin).place(x=35,y=204)
-label=Label(frame,text="Don't have an account?" ,fg='black' ,bg='white',font=('Microsoft YaHei UI Light' ,9))
-label.place(x=75,y=270)    
-
-sign_up= Button(frame,width=6,text='Sign up' ,border=0 ,bg='white' ,cursor='hand2' ,fg='#57a1f8')
-sign_up.place(x=215,y=270)
-
+# Création de la fenêtre principale et lancement de l'application
+root = Tk()
+app = LoginApp(root)
 root.mainloop()
