@@ -4,7 +4,7 @@ class User():
     def __init__(self):
         pass
 
-    def createUser(email ,surname ,firstname,password):
+    def createUser(self ,email ,surname ,firstname,password):
         # Permet la création d'un utilisateur
         queries = ("""
             INSERT INTO user(email ,surname, firstname ,password ,state)
@@ -50,19 +50,19 @@ class User():
         params = [id]
         db.executeQuery(queries,params)
         
-    def Connection(id):
-        # Modifie la colonne 'state' de l'utilisateur pour le rendre 'online'
+    def Connection(self):
+        # Modifie la colonne 'state' de l'utilisateur pour le rendre hors-ligne
         # Appel lorsqu'on appuie sur le boutton Connection
         queries = ("""
             UPDATE user
-            SET state = 'online'
+            SET state = online
             WHERE id = %s
             """)
-        params = [id]
+        params = (id)
         db.executeQuery(queries, params)
         
     
-    def Disconnection(id):
+    def Disconnection(self ,id):
         # Modifie la colonne 'state' de l'utilisateur pour le rendre hors-ligne
         # Appel lorsqu'on appuie sur le boutton Connection
         # if button_disconnection = True
@@ -110,10 +110,10 @@ class User():
     def get_user_id(email): 
         query = ("""
                  select id from user
-                 where email = %s
+                 where email = (%s)
                  """)
-        param = [email]
-        return db.fetch(query,param)[0][0]
+        params = [email]
+        return db.fetch(query,params)[0][0]
 
     
 
@@ -122,10 +122,9 @@ db = Db("ilyes-chabab.students-laplateforme.io" ,"ilyes-chabab" ,"Nitrate13140" 
 user = User()
 # user.createUser("oleoleg@dongz.com","cricri" ,"ovor" ,"ippon123")
 # print(user.get_user_id('oleoleg@dongz.com'))
-# user.deleteUser(7)
+# user.deleteUser(3)
 # user.updateUser("boing" ,"ding" ,2)
 # print (user.checkForAccount('dingdong@boing.com'))
 # user.checkForConnection()
 # print (user.checkForPassword('dingdong@boing.com'))
-# User.Connection(13)
 # user.readUser()
