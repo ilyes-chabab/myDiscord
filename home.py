@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+import re
 from User import *
 
 class LoginApp:
@@ -90,12 +91,25 @@ class LoginApp:
 
         elif username != User.checkForAccount(username):
             messagebox.showerror('Invalid', 'Invalid email')
+        
+        elif self.is_valid_email(username) == False:
+            messagebox.showerror('Invalid', 'Please enter a valid email')
     
     # Fonction pour retourner l'ID de l'utilisateur
     def return_id(self):
         email_value = self.user.get()
         user_id = User.get_user_id(email_value)
         return user_id
+    
+    def is_valid_email(self ,username):
+        # Modèle d'expression régulière pour valider l'adresse e-mail
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        # Vérification de l'adresse e-mail avec l'expression régulière
+        if re.match(pattern, username):
+            return True
+        else:
+            return False
+    
 
     # Méthode pour ouvrir l'écran d'inscription
     def open_signup(self):
@@ -223,6 +237,10 @@ class SignUpApp:
 
         if User.checkForAccount(email_value):
             messagebox.showerror('Invalid', 'Your email is already associed to an account')
+
+        elif self.is_valid_email(email_value) == False:
+            messagebox.showerror('Invalid', 'Please enter a valid email')
+
         else:
             User.createUser(email_value, surname_value, firstname_value, password_value)
 
@@ -231,6 +249,15 @@ class SignUpApp:
         email_value = self.user.get()
         user_id = User.get_user_id(email_value)
         return user_id
+    
+    def is_valid_email(self ,email_value):
+        # Modèle d'expression régulière pour valider l'adresse e-mail
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        # Vérification de l'adresse e-mail avec l'expression régulière
+        if re.match(pattern, email_value):
+            return True
+        else:
+            return False
 
     # Fonction pour ouvrir l'écran de connexion
     def open_login(self):

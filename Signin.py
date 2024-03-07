@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from User import *
-from Signup import SignUpApp
+# from Signup import SignUpApp
 
 class LoginApp:
     def __init__(self, master):
