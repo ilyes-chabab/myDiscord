@@ -51,7 +51,7 @@ class main_page:
 
         self.entry_var = StringVar()
         self.entry = Entry(self.root, width=90, textvariable=self.entry_var)
-        self.entry.pack(pady=20, padx=50)
+        self.entry.pack(pady=20, padx=40)
         self.entry.place(x=500, y=550)  # Positionner la barre d'entrée 
 
         # Configurez la validation pour limiter le nombre de caractères
