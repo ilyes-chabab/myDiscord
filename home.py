@@ -1,5 +1,6 @@
 import tkinter as tk
 import re
+import subprocess
 from tkinter import messagebox
 from User import *
 
@@ -82,7 +83,7 @@ class LoginApp:
         if User.checkForAccount(username) and password == User.checkForPassword(username):
             user_id = User.get_user_id(username)
             self.master.withdraw()  # Masquer la fenêtre de connexion
-            self.open_app_screen(user_id)  # Ouvrir l'écran d'application avec l'ID de l'utilisateur
+            self.open_app_screen()  # Ouvrir l'écran d'application avec l'ID de l'utilisateur
         
         elif self.is_valid_email(username) == False:
             messagebox.showerror('Invalid', 'Please enter a valid email')
@@ -121,12 +122,12 @@ class LoginApp:
         signup_screen.protocol("WM_DELETE_WINDOW", lambda: self.on_close_signup(signup_screen))  # Définir une action lorsque la fenêtre est fermée
 
     # Méthode pour ouvrir l'écran d'application après la connexion
-    def open_app_screen(self, user_id):
-        app_screen = tk.Toplevel(self.master)  # Créer une nouvelle fenêtre pour l'application
-        app_screen.title("App")
-        app_screen.geometry('925x500+300+200')
-        app_screen.config(bg="white")
-        tk.Label(app_screen, text='Hello Everyone!', bg='#fff', font=('Calibri(Body)', 50, 'bold')).pack(expand=True)
+    def open_app_screen(self):
+        # Remplacez 'chemin/vers/votre/programme.py' par le chemin de votre fichier de messagerie
+        chemin_programme_messagerie = 'Main-page.py'
+        
+        # Utilisez subprocess pour exécuter le programme de messagerie
+        subprocess.Popen(['python', chemin_programme_messagerie])
 
     # Méthode appelée lorsque la fenêtre d'inscription est fermée
     def on_close_signup(self, signup_screen):
@@ -190,7 +191,7 @@ class SignUpApp:
         tk.Frame(self.frame, width=295, height=2, bg='black').place(x=25, y=257)
 
         # Bouton pour soumettre le formulaire d'inscription
-        self.sign_up_button = tk.Button(self.frame, width=39, pady=7, text='Sign up', bg='#57a1f8', fg='white', border=0, command=lambda:[self.sign_up(),self.return_id()])
+        self.sign_up_button = tk.Button(self.frame, width=39, pady=7, text='Sign up', bg='#57a1f8', fg='white', border=0, command=lambda:[self.sign_up(),self.return_id_2()])
         self.sign_up_button.place(x=35, y=280)
 
         # Label pour indiquer la possibilité de se connecter si déjà inscrit
@@ -245,9 +246,11 @@ class SignUpApp:
 
         else:
             User.createUser(email_value, surname_value, firstname_value, password_value)
+            self.master.withdraw()  # Masquer la fenêtre de connexion
+            self.open_app_screen()
 
     # Fonction pour retourner l'ID de l'utilisateur
-    def return_id(self):
+    def return_id_2(self):
         email_value = self.user.get()
         user_id = User.get_user_id(email_value)
         return user_id
@@ -260,6 +263,14 @@ class SignUpApp:
             return True
         else:
             return False
+    
+    def open_app_screen(self):
+        self.master.destroy()
+        # Remplacez 'chemin/vers/votre/programme.py' par le chemin de votre fichier de messagerie
+        chemin_programme_messagerie = 'Main-page.py'
+        
+        # Utilisez subprocess pour exécuter le programme de messagerie
+        subprocess.Popen(['python', chemin_programme_messagerie])
     
     # Fonction pour ouvrir l'écran de connexion
     def open_login(self):

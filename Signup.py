@@ -1,7 +1,8 @@
 import tkinter as tk
+import re
+import subprocess
 from tkinter import messagebox
 from User import *
-from Signin import LoginApp
 
 class SignUpApp:
     def __init__(self, master):
@@ -60,8 +61,8 @@ class SignUpApp:
         tk.Frame(self.frame, width=295, height=2, bg='black').place(x=25, y=257)
 
         # Bouton pour soumettre le formulaire d'inscription
-        self.sign_in_button = tk.Button(self.frame, width=39, pady=7, text='Sign up', bg='#57a1f8', fg='white', border=0, command=self.sign_in)
-        self.sign_in_button.place(x=35, y=280)
+        self.sign_up_button = tk.Button(self.frame, width=39, pady=7, text='Sign up', bg='#57a1f8', fg='white', border=0, command=lambda:[self.sign_up(),self.return_id()])
+        self.sign_up_button.place(x=35, y=280)
 
         # Label pour indiquer la possibilité de se connecter si déjà inscrit
         self.label = tk.Label(self.frame, text='I have an account', fg='black', bg='white', font=('Microsoft YaHei UI Light',9))
@@ -101,7 +102,7 @@ class SignUpApp:
             self.code.insert(0, 'Password')
 
     # Fonction pour gérer la soumission du formulaire d'inscription
-    def sign_in(self):
+    def sign_up(self):
         email_value = self.user.get()
         surname_value = self.surname.get()
         firstname_value = self.firstname.get()
@@ -109,8 +110,13 @@ class SignUpApp:
 
         if User.checkForAccount(email_value):
             messagebox.showerror('Invalid', 'Your email is already associed to an account')
+
+        elif self.is_valid_email(email_value) == False:
+            messagebox.showerror('Invalid', 'Please enter a valid email')
+
         else:
             User.createUser(email_value, surname_value, firstname_value, password_value)
+            self.open_login()
 
     # Fonction pour retourner l'ID de l'utilisateur
     def return_id(self):
@@ -118,9 +124,31 @@ class SignUpApp:
         user_id = User.get_user_id(email_value)
         return user_id
 
+    def is_valid_email(self ,email_value):
+        # Modèle d'expression régulière pour valider l'adresse e-mail
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        # Vérification de l'adresse e-mail avec l'expression régulière
+        if re.match(pattern, email_value):
+            return True
+        else:
+            return False
+    
+    def open_app_screen(self, user_id):
+        # Remplacez 'chemin/vers/votre/programme.py' par le chemin de votre fichier de messagerie
+        chemin_programme_messagerie = 'Main-page.py'
+        
+        # Utilisez subprocess pour exécuter le programme de messagerie
+        subprocess.Popen(['python', chemin_programme_messagerie])
+    
     # Fonction pour ouvrir l'écran de connexion
     def open_login(self):
-        self.master.destroy()  # Fermer la fenêtre d'inscription
-        login_screen = tk.Tk()  # Créer une nouvelle fenêtre de connexion
-        login_app = LoginApp(login_screen)  # Initialiser l'application de connexion
-        login_screen.mainloop()  # Lancer l'application de connexion
+        # Remplacez 'chemin/vers/votre/programme.py' par le chemin de votre fichier de messagerie
+        chemin_programme_messagerie = 'Signin.py'
+        
+        # Utilisez subprocess pour exécuter le programme de messagerie
+        subprocess.Popen(['python', chemin_programme_messagerie])
+
+# Création de la fenêtre principale et lancement de l'application de connexion
+root = tk.Tk()
+app = LoginApp(root)
+root.mainloop()

@@ -1,7 +1,8 @@
 import tkinter as tk
+import re
+import subprocess
 from tkinter import messagebox
 from User import *
-from Signup import SignUpApp
 
 class LoginApp:
     def __init__(self, master):
@@ -48,7 +49,7 @@ class LoginApp:
 
         # Bouton "Sign in"
         tk.Button(self.frame, width=39, pady=7, text='Sign in', bg='#57a1f8', fg='white', border=0,
-               command=lambda:[sign_in(),return_id()]).place(x=35, y=204)
+               command=lambda:[self.sign_in(),self.return_id()]).place(x=35, y=204)
 
         # Texte "Don't have an account?"
         tk.Label(self.frame, text="Don't have an account?", fg='black', bg='white',
@@ -73,16 +74,20 @@ class LoginApp:
                 widget.insert(0, 'Password')  # Remplir avec "Password"
 
     # Méthode pour gérer la connexion
-    def signin(self):
+    def sign_in(self):
         username = self.user.get()
         password = self.code.get()
 
         # Vérification des informations d'identification
+
         if User.checkForAccount(username) and password == User.checkForPassword(username):
             user_id = User.get_user_id(username)
             self.master.withdraw()  # Masquer la fenêtre de connexion
             self.open_app_screen(user_id)  # Ouvrir l'écran d'application avec l'ID de l'utilisateur
-
+        
+        elif self.is_valid_email(username) == False:
+            messagebox.showerror('Invalid', 'Please enter a valid email')
+        
         elif username != User.checkForAccount(username) and password != User.checkForPassword(username):
             messagebox.showerror('Invalid', 'Invalid email and password')
 
@@ -92,28 +97,41 @@ class LoginApp:
         elif username != User.checkForAccount(username):
             messagebox.showerror('Invalid', 'Invalid email')
 
+
+    
+    # Fonction pour retourner l'ID de l'utilisateur
+    def return_id(self):
+        email_value = self.user.get()
+        user_id = User.get_user_id(email_value)
+        return user_id
+
+    def is_valid_email(self ,email_value):
+        # Modèle d'expression régulière pour valider l'adresse e-mail
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        # Vérification de l'adresse e-mail avec l'expression régulière
+        if re.match(pattern, email_value):
+            return True
+        else:
+            return False
+
     # Méthode pour ouvrir l'écran d'inscription
     def open_signup(self):
-        self.master.withdraw()  # Masquer la fenêtre de connexion
-        signup_screen = tk.Toplevel(self.master)  # Créer une nouvelle fenêtre pour l'inscription
-        signup_app = SignUpApp(signup_screen)  # Initialiser l'application d'inscription
-        signup_screen.protocol("WM_DELETE_WINDOW", lambda: self.on_close_signup(signup_screen))  # Définir une action lorsque la fenêtre est fermée
+        # Remplacez 'chemin/vers/votre/programme.py' par le chemin de votre fichier de messagerie
+        chemin_programme_messagerie = 'Signup.py'
+        
+        # Utilisez subprocess pour exécuter le programme de messagerie
+        subprocess.Popen(['python', chemin_programme_messagerie])
 
     # Méthode pour ouvrir l'écran d'application après la connexion
-    def open_app_screen(self, user_id):
-        app_screen = tk.Toplevel(self.master)  # Créer une nouvelle fenêtre pour l'application
-        app_screen.title("App")
-        app_screen.geometry('925x500+300+200')
-        app_screen.config(bg="white")
-        tk.Label(app_screen, text='Hello Everyone!', bg='#fff', font=('Calibri(Body)', 50, 'bold')).pack(expand=True)
+    def open_app_screen(self):
+        # Remplacez 'chemin/vers/votre/programme.py' par le chemin de votre fichier de messagerie
+        chemin_programme_messagerie = 'Main-page.py'
+        
+        # Utilisez subprocess pour exécuter le programme de messagerie
+        subprocess.Popen(['python', chemin_programme_messagerie])
 
     # Méthode appelée lorsque la fenêtre d'inscription est fermée
     def on_close_signup(self, signup_screen):
         self.master.deiconify()  # Réafficher la fenêtre de connexion lorsque la fenêtre d'inscription est fermée
         signup_screen.destroy()  # Détruire la fenêtre d'inscription pour libérer les ressources
-
-# Création de la fenêtre principale et lancement de l'application de connexion
-# if __name__ == "__main__":
-root = tk.Tk()
-app = LoginApp(root)
-root.mainloop()
+        

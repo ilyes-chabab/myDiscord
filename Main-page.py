@@ -5,6 +5,7 @@ from Channel import Channel
 from Db import Db
 from Message import Message
 from Right import Right
+from home import return_id ,return_id_2
 
 class main_page:
     
@@ -14,7 +15,7 @@ class main_page:
         self.channel=Channel()
         self.root = tk.Tk()
         self.root.title('myDiscord') 
-        self.id_user=2
+        self.id_user = return_id() or return_id_2()
         self.id_channel=0
         self.number_channel=self.channel.numberChannelForUser(self.id_user)[self.id_channel][0]
         self.name_channel=self.channel.getNameChannel(self.number_channel)
@@ -22,7 +23,6 @@ class main_page:
         self.messaging()
 
     def messaging(self):
-        print("jqshd")
         self.tree.column('id_user_emeteur', anchor='center', width=50)  # Ajustez la largeur 
         self.tree.column('heure', anchor='center', width=150)
         self.tree.column('message', anchor='w', width=400)  # 'w' signifie west : alignement à gauche (left)
